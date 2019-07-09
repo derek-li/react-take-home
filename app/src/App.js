@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Campaign from './components/campaign';
+
+class App extends Component {
+  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      campaigns: []
+    };
+  }
+
+  componentDidMount() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://www.plugco.in/public/take_home_sample_feed");
+    xhr.onreadystatechange = function() {
+      if(xhr.readyState === 4 && xhr.status === 200) {
+        const data = JSON.parse(xhr.response);
+        this.setState({ campaigns: data.campaigns });
+      }
+    }.bind(this);
+    xhr.send();
+  }
+
+  renderCampaigns() {
+    const campaigns = this.state.campaigns;
+
+    if (campaigns.length !== 0) {
+      return campaigns.map(function(campaign, i) {
+        return (
+          <Campaign
+            key={i}
+            campaign={campaign}
+          />
+        );
+      }, this);
+    }
+  }
+
+  render() {
+    return (
+      <div className="App">
+        {this.renderCampaigns()}
+      </div>
+    );
+  }
+  
 }
 
 export default App;
