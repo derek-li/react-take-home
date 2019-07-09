@@ -2,9 +2,14 @@
 
 First, install [npm](https://www.npmjs.com/get-npm)
 
-Then, in the project directory run:
-1. `npm install`
-2. `npm start`
+Then, in the root directory run:
+1. `cd app`
+2. `npm install`
+3. `npm start`
+
+### `cd app`
+
+Switches to the project directory.
 
 ### `npm install`
 
